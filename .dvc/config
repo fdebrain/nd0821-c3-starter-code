@@ -1,0 +1,2 @@
+['remote "s3_bucket"']
+    url = s3://mlops3
