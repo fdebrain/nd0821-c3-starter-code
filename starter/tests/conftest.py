@@ -7,7 +7,7 @@ from starter.train_model import CAT_FEATURES
 
 @pytest.fixture
 def data():
-    return pd.read_csv('data/census_cleaned.csv').sample(100)
+    return pd.read_csv('./starter/data/census_cleaned.csv', nrows=100)
 
 
 @pytest.fixture
