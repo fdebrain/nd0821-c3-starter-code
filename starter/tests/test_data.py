@@ -3,6 +3,7 @@ import logging
 from pathlib import Path
 
 from starter.ml.data import process_data
+from starter.train_model import CAT_FEATURES
 
 LOG_SAVEDIR = Path("logs")
 LOG_SAVEDIR.mkdir(exist_ok=True)
@@ -15,11 +16,10 @@ logging.basicConfig(
     force=True)
 
 
-def test_process_training(data, cat_features):
-
+def test_process_training(data):
     try:
         X, y, _, _ = process_data(data,
-                                  cat_features,
+                                  CAT_FEATURES,
                                   label="salary",
                                   training=True)
         logging.info("Testing process_data: Success")

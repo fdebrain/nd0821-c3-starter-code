@@ -11,6 +11,18 @@ from starter.ml.model import (compute_model_metrics,
                               save_encoder, save_metrics, save_model,
                               train_model)
 
+CAT_FEATURES = [
+    "workclass",
+    "education",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "native-country",
+]
+
+
 LOG_SAVEDIR = Path("logs")
 LOG_SAVEDIR.mkdir(exist_ok=True)
 logging.basicConfig(
@@ -28,18 +40,8 @@ def main():
     train, test = train_test_split(data, test_size=0.20)
 
     logging.info('Process training data')
-    cat_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex",
-        "native-country",
-    ]
     X_train, y_train, encoder, lb = process_data(train,
-                                                 categorical_features=cat_features,
+                                                 categorical_features=CAT_FEATURES,
                                                  label="salary",
                                                  training=True)
 
@@ -61,7 +63,7 @@ def main():
         f"Precision: {precision:.2f} | Recall: {recall:.2f} | F-beta: {fbeta:.2f}")
 
     logging.info('Compute sliced metrics for all categorical columns')
-    for col in cat_features:
+    for col in CAT_FEATURES:
         groups = test[col]
         sliced_metrics = compute_sliced_performance(X_test, y_test, groups, model)
         save_metrics(sliced_metrics, f'model/metrics_by_{col}.json')

@@ -2,18 +2,7 @@ import pandas as pd
 import pytest
 from starter.ml.data import process_data
 from starter.ml.model import train_model
-
-
-@pytest.fixture
-def cat_features():
-    return ["workclass",
-            "education",
-            "marital-status",
-            "occupation",
-            "relationship",
-            "race",
-            "sex",
-            "native-country"]
+from starter.train_model import CAT_FEATURES
 
 
 @pytest.fixture
@@ -22,9 +11,9 @@ def data():
 
 
 @pytest.fixture
-def processed_data(data, cat_features):
+def processed_data(data):
     X, y, _, _ = process_data(data,
-                              categorical_features=cat_features,
+                              categorical_features=CAT_FEATURES,
                               label="salary",
                               training=True)
     return X, y
