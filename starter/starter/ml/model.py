@@ -2,7 +2,6 @@ import json
 
 import joblib
 import numpy as np
-import pandas as pd
 import sklearn
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score

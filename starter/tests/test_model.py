@@ -2,7 +2,6 @@ import logging
 import tempfile
 from pathlib import Path
 
-from sklearn.linear_model import LogisticRegression
 from starter.ml.model import inference, save_model, train_model
 
 LOG_SAVEDIR = Path("logs")
