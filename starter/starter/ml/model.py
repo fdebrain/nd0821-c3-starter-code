@@ -1,8 +1,15 @@
+import json
+
+import joblib
+import numpy as np
+import pandas as pd
+import sklearn
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 
 
 # Optional: implement hyperparameter tuning.
-def train_model(X_train, y_train):
+def train_model(X_train: np.ndarray, y_train: np.ndarray) -> sklearn.base.ClassifierMixin:
     """
     Trains a machine learning model and returns it.
 
@@ -17,11 +24,12 @@ def train_model(X_train, y_train):
     model
         Trained machine learning model.
     """
+    model = RandomForestClassifier()
+    model.fit(X_train, y_train)
+    return model
 
-    pass
 
-
-def compute_model_metrics(y, preds):
+def compute_model_metrics(y: np.ndarray, preds: np.ndarray):
     """
     Validates the trained machine learning model using precision, recall, and F1.
 
@@ -43,12 +51,23 @@ def compute_model_metrics(y, preds):
     return precision, recall, fbeta
 
 
-def inference(model, X):
+def compute_sliced_performance(X, y, groups, model: sklearn.base.ClassifierMixin):
+    preds = inference(model, X)
+    sliced_metrics = {}
+
+    for group_val in set(groups):
+        mask = groups == group_val
+        precision, recall, fbeta = compute_model_metrics(y[mask], preds[mask])
+        sliced_metrics[group_val] = {'precision': precision, 'recall': recall, 'fbeta': fbeta, 'size': sum(mask)}
+    return sliced_metrics
+
+
+def inference(model: sklearn.base.ClassifierMixin, X: np.ndarray):
     """ Run model inferences and return the predictions.
 
     Inputs
     ------
-    model : ???
+    model : sklearn.base.ClassifierMixin
         Trained machine learning model.
     X : np.array
         Data used for prediction.
@@ -57,4 +76,17 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    pass
+    return model.predict(X)
+
+
+def save_model(model: sklearn.base.ClassifierMixin, savepath: str):
+    joblib.dump(model, savepath)
+
+
+def save_encoder(encoder: sklearn.base.TransformerMixin, savepath: str):
+    joblib.dump(encoder, savepath)
+
+
+def save_metrics(metrics: dict, filepath: str):
+    with open(filepath, mode='w') as f:
+        json.dump(metrics, f, indent=4)
