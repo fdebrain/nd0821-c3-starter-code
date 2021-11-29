@@ -13,6 +13,13 @@ from starter.train_model import CAT_FEATURES
 app = FastAPI()
 ROOT_DIR = Path(os.path.dirname(os.path.abspath(__file__))).parent
 
+# DVC requirement
+if "DYNO" in os.environ and os.path.isdir(".dvc"):
+    os.system("dvc config core.no_scm true")
+    if os.system("dvc pull") != 0:
+        exit("dvc pull failed")
+    os.system("rm -r .dvc .apt/usr/lib/dvc")
+
 
 class ToHyphen(BaseModel):
     class Config:
