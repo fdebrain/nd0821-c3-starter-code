@@ -50,7 +50,7 @@ def main():
 
     logging.info('Process and infer on test set')
     X_test, y_test, _, _ = process_data(test,
-                                        categorical_features=cat_features,
+                                        categorical_features=CAT_FEATURES,
                                         label="salary",
                                         training=False,
                                         encoder=encoder,
