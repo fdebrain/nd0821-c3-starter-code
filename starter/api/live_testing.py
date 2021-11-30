@@ -18,7 +18,7 @@ data = {'age': 50,
         'native-country': 'Canada'}
 
 
-response = requests.post('http://127.0.0.1:8000/predict', data=json.dumps(data))
+response = requests.post('https://census-ml-app.herokuapp.com/predict', data=json.dumps(data))
 
 print(response.status_code)
 print(response.json())
