@@ -5,7 +5,7 @@ import joblib
 import pandas as pd
 import uvicorn
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from starter.ml.data import process_data
 from starter.ml.model import inference
 from starter.train_model import CAT_FEATURES
@@ -31,20 +31,20 @@ class ToHyphen(BaseModel):
 
 
 class InputData(ToHyphen):
-    age: int
-    workclass: str
-    fnlgt: int
-    education: str
-    education_num: int
-    marital_status: str
-    occupation: str
-    relationship: str
-    race: str
-    sex: str
-    capital_gain: int
-    capital_loss: int
-    hours_per_week: int
-    native_country: str
+    age: int = Field(..., example=40)
+    workclass: str = Field(..., example='Private')
+    fnlgt: int = Field(..., example=160187)
+    education: str = Field(..., example='Masters')
+    education_num: int = Field(..., example=14)
+    marital_status: str = Field(..., example='Married-civ-spouse')
+    occupation: str = Field(..., example='Prof-specialty')
+    relationship: str = Field(..., example='Not-in-family')
+    race: str = Field(..., example='White')
+    sex: str = Field(..., example='Female')
+    capital_gain: int = Field(..., example=40000)
+    capital_loss: int = Field(..., example=0)
+    hours_per_week: int = Field(..., example=40)
+    native_country: str = Field(..., example='Canada')
 
 
 model_dir = f'{ROOT_DIR}/model'
